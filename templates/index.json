@@ -114,7 +114,7 @@
         "collection": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "summer-collection",
             "image_padding": false,
             "color_scheme": "background-1"
           }
