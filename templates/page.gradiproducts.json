@@ -3,6 +3,7 @@
     "main": {
       "type": "productsgrid",
       "settings": {
+        "collection": "summer-collection"
       }
     }
   },
