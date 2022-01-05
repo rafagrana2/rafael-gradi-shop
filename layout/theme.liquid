@@ -29,10 +29,6 @@
 
     {% render 'meta-tags' %}
 
-    {% if request.path != routes.cart_url %}    
-      {% render 'mini-cart' %}
-    {% endif %}
-
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     {{ content_for_header }}
 
@@ -132,6 +128,9 @@
     </script>
     {{ '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' | stylesheet_tag }}
     {{ '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css' | stylesheet_tag }}
+    {% if request.path != routes.cart_url %}    
+      {% render 'mini-cart' %}
+    {% endif %}
   </head>
 
   <body class="gradient">
