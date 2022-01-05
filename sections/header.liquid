@@ -19,45 +19,37 @@
     justify-self: start;
     margin-left: -1.2rem;
   }
-
   @media screen and (min-width: 990px) {
     header-drawer {
       display: none;
     }
   }
-
   .menu-drawer-container {
     display: flex;
   }
-
   .list-menu {
     list-style: none;
     padding: 0;
     margin: 0;
   }
-
   .list-menu--inline {
     display: inline-flex;
     flex-wrap: wrap;
   }
-
   summary.list-menu__item {
     padding-right: 2.7rem;
   }
-
   .list-menu__item {
     display: flex;
     align-items: center;
     line-height: calc(1 + 0.3 / var(--font-body-scale));
   }
-
   .list-menu__item--link {
     text-decoration: none;
     padding-bottom: 1rem;
     padding-top: 1rem;
     line-height: calc(1 + 0.8 / var(--font-body-scale));
   }
-
   @media screen and (min-width: 750px) {
     .list-menu__item--link {
       padding-bottom: 0.5rem;
@@ -489,7 +481,7 @@
         </a>
       {%- endif -%}
 
-      <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
+      <a href="#" class="header__icon header__icon--cart link focus-inset" id="cart-icon-bubble">
         {%- liquid
           if cart == empty
             render 'icon-cart-empty'
@@ -508,8 +500,28 @@
         {%- endif -%}
       </a>
     </div>
-    <h1>Hello World</h1>
   </header>
+  <script>
+  const Overlay  = document.getElementById('Overlay');
+  const MiniCart = document.getElementById('MiniCart');
+  const CartIcon = document.getElementById('cart-icon-bubble');
+
+  CartIcon.addEventListener("click", function(){
+
+    if (Overlay.classList.contains('active')){
+      MiniCart.classList.remove('open');
+      Overlay.classList.remove('active');
+    }else{
+      MiniCart.classList.add('open');
+      Overlay.classList.add('active');
+    }
+    });
+  
+  Overlay.addEventListener("click", function(){
+      MiniCart.classList.remove('open');
+      Overlay.classList.remove('active');
+    });
+  </script>
 </{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %}>
 
 {%- render 'cart-notification', color_scheme: section.settings.color_scheme -%}
@@ -712,8 +724,7 @@
         }
       ],
       "default": "middle-left",
-      "label": "t:sections.header.settings.logo_position.label",
-      "info": "t:sections.header.settings.logo_position.info"
+      "label": "t:sections.header.settings.logo_position.label"
     },
     {
       "type": "link_list",

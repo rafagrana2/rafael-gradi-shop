@@ -44,16 +44,26 @@ class CartNotification extends HTMLElement {
 
   getSectionsToRender() {
     return [
-      {
-        id: 'cart-notification-product',
-        selector: `#cart-notification-product-${this.productId}`,
-      },
-      {
-        id: 'cart-notification-button'
-      },
-      {
-        id: 'cart-icon-bubble'
-      }
+        {
+            id: 'cart-notification-product',
+            selector: `#cart-notification-product-${this.productId}`,
+        },
+        {
+            id: 'cart-notification-button'
+        },
+        {
+            id: 'cart-icon-bubble'
+        },
+        {
+            id: 'main-cart-items',
+            section: 'main-cart-items',
+            selector: '.js-contents',
+        },
+        {
+            id: 'main-cart-footer',
+            section: 'main-cart-footer',
+            selector: '#main-cart-footer',
+        }
     ];
   }
 
