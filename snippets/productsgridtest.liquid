@@ -6,8 +6,9 @@
 <div class="page-width">
   <h1>{{ section.settings.title | escape }}</h1>
   {%- assign product_form_id = 'product-form-' | append: section.id -%}
-  <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
+  <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}" name="MyForm">
   <input type="hidden" name="id" id="ProductId" />
+  <input type="hidden" name="return_to" value="back" />
     <div class="shell">
       <div class="container">
         <div class="row">
@@ -22,12 +23,9 @@
                     src="{{ featured_image | img_url: 'master' }}"
                     width=300
                     height="auto"
-                    loading="lazy"
-                    data-src="{{ featured_image }}"
-                    data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
-                    data-aspectratio="{{ article.image.aspect_ratio }}"
-                    data-sizes="auto" 
+                    loading="lazy" 
                     alt="Product" 
+                    class="img-responsive"
                     id="{{ image_id }}"/>
               </div>
               <div class="wsk-cp-text" onclick="">
@@ -50,23 +48,31 @@
 
                           <input type="radio" 
                                 id="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                                name="{{ option.name }}-{{ product.id }}"
+                                name="MyRadios"
                                 value="{{ value | escape }}"
                                 form="{{ product_form_id }}"
-                                onchange="SelectId('{{ product.variants[forloop.index0].id }}','{{ product_id }}')"
+                                variant-id="{{ product.variants[forloop.index0].id }}"
+                                product-id="{{ product_id }}"
+                                
                                 {% if option.selected_value == value %} checked="checked"{% endif %}
                                 {% unless variant_label_state %} disabled {% endunless %}
                           >
                           {% if product.variants[forloop.index0].metafields.color.values and option.name == 'Color' %}
                           <label 
-                            for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}" 
+                            for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                            name="MyLabels" 
                             style="background-color: {{ product.variants[forloop.index0].metafields.color.values }}"
-                            onmouseover="ChangeProdBg('{{ product.variants[forloop.index0].image.src | img_url: 'master' }}','{{ image_id }}')">
+                            img-src = "{{ product.variants[forloop.index0].image.src }}"
+                            img-id = "{{ image_id }}"
+                            >
                           </label>
                           {% else %}
                           <label 
                           for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                          onmouseover="ChangeProdBg('{{ product.variants[forloop.index0].image.src | img_url: 'master' }}','{{ image_id }}')">
+                          name="MyLabels"
+                          img-src = "{{ product.variants[forloop.index0].image.src }}"
+                          img-id = "{{ image_id }}" 
+                          >
                             {{ value }}
                           </label>
                           {% endif %} 
@@ -75,12 +81,12 @@
                 {%- endfor -%}
                 <div class="card-footer">
                   <div class="wcf-left">
-                    <span class="price-2">
+                    <span class="price">
                       {{ product.price | money | strip_html }}
                     </span>
                   </div>
                   <div class="wcf-right">
-                    <input type="submit" onclick="AddToCart(); return false;" value="Add to cart" class="button green invert big with-icon add_to_cart" />
+                    <input type="submit" id="MySubmit" value="Add to cart" class="button green invert big with-icon add_to_cart" />
                   </div>
                 </div>
               </div>
@@ -93,7 +99,61 @@
   </form>
 </div>
 
-<script src="{{ 'productsgrid.js' | asset_url }}" defer="defer"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', (e) => {
+
+    var rad = document.querySelectorAll("input[name='MyRadios']");
+    for (var i = 0; i < rad.length; i++) {
+      rad[i].addEventListener('change', function() {
+        var id_var = rad[i].getAttribute('variant-id');
+        document.getElementById('ProductId').value = id_var;
+        });
+    }
+  
+    var labl = document.querySelectorAll("label[name='MyLabels']");
+    for (var i = 0; i < labl.length; i++) {
+      labl[i].addEventListener('mouseup', function() {
+        var img_src = '//cdn.shopify.com/s/files/1/0606/1722/8481/'+labl[i].getAttribute('img-src');
+        var img_id  = labl[i].getAttribute('img-id');
+        document.getElementById(img_id).src = img_src;
+        });
+    }
+  
+    const MySubmit = document.getElementById('MySubmit');
+    MySubmit.addEventListener('click', function(e) {
+      e.preventDefault();
+      const CartBtn = document.getElementById('AddToCart');
+      const Overlay  = document.getElementById('Overlay');
+      const MiniCart = document.getElementById('MiniCart');
+  
+      MiniCart.classList.add('open');
+      Overlay.classList.add('active');
+    });
+    
+  });
+
+
+  /*function ChangeProdBg(src, id){
+    document.getElementById(id).src = '//cdn.shopify.com/s/files/1/0606/1722/8481/'+src;
+  }
+  
+  function SelectId(id, productId){
+    document.getElementById('ProductId').value = id;
+  }
+  
+  function OpenUrl(url){
+    window.open(url,'_self');
+  }
+
+  function OpenMiniCart(){
+    const CartBtn = document.getElementById('AddToCart');
+    const Overlay  = document.getElementById('Overlay');
+    const MiniCart = document.getElementById('MiniCart');
+
+    MiniCart.classList.add('open');
+    Overlay.classList.add('active');
+  }*/
+</script>
 
 {% schema %}
   {
