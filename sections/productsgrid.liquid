@@ -2,8 +2,11 @@
 {{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
 {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
 {{ 'products-grid.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'productsgrid.js' | asset_url }}" defer="defer"></script>
+
 {%- assign collection = collections[section.settings.collection] -%}
-<div class="page-width">
+<products-grid>
   <h1>{{ section.settings.title | escape }}</h1>
   {%- assign product_form_id = 'product-form-' | append: section.id -%}
   <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
@@ -49,24 +52,32 @@
                         {%- endunless -%}
 
                           <input type="radio" 
-                                id="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                                name="{{ option.name }}-{{ product.id }}"
-                                value="{{ value | escape }}"
-                                form="{{ product_form_id }}"
-                                onchange="SelectId('{{ product.variants[forloop.index0].id }}','{{ product_id }}')"
-                                {% if option.selected_value == value %} checked="checked"{% endif %}
-                                {% unless variant_label_state %} disabled {% endunless %}
+                              id="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                              name="MyRadios"
+                              value="{{ value | escape }}"
+                              form="{{ product_form_id }}"
+                              variant-id="{{ product.variants[forloop.index0].id }}"
+                              product-id="{{ product_id }}"
+                              
+                              {% if option.selected_value == value %} checked="checked"{% endif %}
+                              {% unless variant_label_state %} disabled {% endunless %}
                           >
                           {% if product.variants[forloop.index0].metafields.color.values and option.name == 'Color' %}
                           <label 
-                            for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}" 
+                            for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                            name="MyLabels" 
                             style="background-color: {{ product.variants[forloop.index0].metafields.color.values }}"
-                            onmouseover="ChangeProdBg('{{ product.variants[forloop.index0].image.src | img_url: 'master' }}','{{ image_id }}')">
+                            img-src = "{{ product.variants[forloop.index0].image.src | img_url: 'master' }}"
+                            img-id = "{{ image_id }}"
+                          >
                           </label>
                           {% else %}
                           <label 
-                          for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
-                          onmouseover="ChangeProdBg('{{ product.variants[forloop.index0].image.src | img_url: 'master' }}','{{ image_id }}')">
+                            for="{{ section.id }}-{{ product.id }}-{{ option.position }}-{{ forloop.index0 }}"
+                            name="MyLabels"
+                            img-src = "{{ product.variants[forloop.index0].image.src | img_url: 'master' }}"
+                            img-id = "{{ image_id }}" 
+                          >
                             {{ value }}
                           </label>
                           {% endif %} 
@@ -80,7 +91,7 @@
                     </span>
                   </div>
                   <div class="wcf-right">
-                    <input type="submit" onclick="AddToCart(); return false;" value="Add to cart" class="button green invert big with-icon add_to_cart" />
+                    <input type="submit" id="MySubmit" value="Add to cart" class="button green invert big with-icon add_to_cart" />
                   </div>
                 </div>
               </div>
@@ -91,9 +102,7 @@
       </div>
     </div>
   </form>
-</div>
-
-<script src="{{ 'productsgrid.js' | asset_url }}" defer="defer"></script>
+</products-grid>
 
 {% schema %}
   {
