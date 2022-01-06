@@ -7,6 +7,14 @@ if (!customElements.get('product-form')) {
       this.form.querySelector('[name=id]').disabled = false;
       this.form.addEventListener('submit', this.onSubmitHandler.bind(this));
       this.cartNotification = document.querySelector('cart-notification');
+      this.Overlay  = document.getElementById('Overlay');
+      this.MiniCart = document.getElementById('MiniCart');
+      //this.productsGrid = document.querySelector('products-grid');
+    }
+
+    OpenMiniCart(){
+      this.MiniCart.classList.add('open');
+      this.Overlay.classList.add('active');
     }
 
     onSubmitHandler(evt) {
@@ -47,6 +55,7 @@ if (!customElements.get('product-form')) {
           submitButton.classList.remove('loading');
           submitButton.removeAttribute('aria-disabled');
           this.querySelector('.loading-overlay__spinner').classList.add('hidden');
+          this.OpenMiniCart();
         });
     }
 
