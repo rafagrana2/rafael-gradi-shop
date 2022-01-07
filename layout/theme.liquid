@@ -140,6 +140,14 @@
 
     {% section 'announcement-bar' %}
     {% section 'header' %}
+    <script src="{{ 'index.js' | asset_url }}" type="module" defer="defer"></script>
+
+    <div class="overlay">
+      <div class="side-cart">
+        {% section 'side-cart' %}
+      </div>
+    </div>
+
     <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>
