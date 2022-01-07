@@ -4,10 +4,12 @@
 */
 export const domElements = () => {
   const elements = {
-      //$productButton: document.querySelector('#productButton'),
+      $closeButton: document.querySelector('#closeMiniCart'),
       $overlay: document.querySelector('.overlay'),
-      $sidecart: document.querySelector('.side-cart'),
-      $cartIcon: document.querySelector('#cart-icon-bubble')
+      $sideCart: document.querySelector('.side-cart'),
+      $sideCartContainer: document.querySelector('#side-cart-section'),
+      $cartIcon: document.querySelector('#cart-icon-bubble'),
+      $cartCheckoutBtn : document.querySelector('#sideCartButton'), 
   }
 
   return elements
