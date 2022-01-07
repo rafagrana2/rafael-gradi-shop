@@ -128,9 +128,7 @@
     </script>
     {{ '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' | stylesheet_tag }}
     {{ '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css' | stylesheet_tag }}
-    {% if request.path != routes.cart_url %}    
-      {% render 'mini-cart' %}
-    {% endif %}
+
   </head>
 
   <body class="gradient">
@@ -144,7 +142,19 @@
 
     <div class="overlay">
       <div class="side-cart">
-        {% section 'side-cart' %}
+        <div class="title-wrapper-with-link">
+          <h1 class="title title--primary">Your Cart</h1>
+          <button
+            class="button green"
+            type="button"
+            id="closeMiniCart"
+          >
+            Continue shopping
+          </button>
+        </div>
+        <div id="side-cart-section">
+          {% section 'side-cart' %}
+        </div>
       </div>
     </div>
 

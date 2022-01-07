@@ -3,14 +3,14 @@
 {{ 'section-main-product.css' | asset_url | stylesheet_tag }}
 {{ 'products-grid.css' | asset_url | stylesheet_tag }}
 
-<script src="{{ 'productsgrid.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'productsgrid.js' | asset_url }}" type="module" defer="defer"></script>
 
 {%- assign collection = collections[section.settings.collection] -%}
 <products-grid>
   <h1>{{ section.settings.title | escape }}</h1>
   {%- assign product_form_id = 'product-form-' | append: section.id -%}
   <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
-  <input type="hidden" name="id" id="ProductId" />
+  <input type="hidden" name="id" id="ProductId" value="{{ product[forloop.index0].selected_or_first_available_variant.id }}"/>
     <div class="shell">
       <div class="container">
         <div class="row">
