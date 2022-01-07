@@ -2,9 +2,9 @@ class ProductsGrid extends HTMLElement {
   constructor() {
     super();
 
-    this.Overlay  = document.getElementById('Overlay');
-    this.MiniCart = document.getElementById('MiniCart');
-    this.MySubmit = document.getElementById('MySubmit');
+    this.Overlay  = document.querySelector('.overlay');
+    this.MiniCart = document.querySelector('.side-cart');
+    this.MySubmit = document.querySelectorAll('#MySubmit');
 
     this.querySelectorAll('input[name="MyRadios"]').forEach((inputRadio) =>
       inputRadio.addEventListener('change', function(){
@@ -21,10 +21,14 @@ class ProductsGrid extends HTMLElement {
       })
     );
 
-    this.MySubmit.addEventListener('click', this.AddToCart.bind(this));
+    this.MySubmit.forEach((inputSubmit)=>
+      inputSubmit.addEventListener('click', this.addToCart.bind(this))
+    );
+
+    //this.MySubmit.addEventListener('click', this.addToCart.bind(this));
   }
 
-  AddToCart(evt){
+  addToCart(evt){
     evt.preventDefault();
     let formData = {
       'items': [{
@@ -51,7 +55,7 @@ class ProductsGrid extends HTMLElement {
   OpenMiniCart(){
     this.MiniCart.classList.add('open');
     this.Overlay.classList.add('active');
-  }
+  } 
 
   renderContents(parsedState) {
     this.productId = parsedState.id;
