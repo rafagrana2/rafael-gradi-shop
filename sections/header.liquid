@@ -501,27 +501,7 @@
       </a>
     </div>
   </header>
-  <script>
-  const Overlay  = document.getElementById('Overlay');
-  const MiniCart = document.getElementById('MiniCart');
-  const CartIcon = document.getElementById('cart-icon-bubble');
 
-  CartIcon.addEventListener("click", function(){
-
-    if (Overlay.classList.contains('active')){
-      MiniCart.classList.remove('open');
-      Overlay.classList.remove('active');
-    }else{
-      MiniCart.classList.add('open');
-      Overlay.classList.add('active');
-    }
-    });
-  
-  Overlay.addEventListener("click", function(){
-      MiniCart.classList.remove('open');
-      Overlay.classList.remove('active');
-    });
-  </script>
 </{% if section.settings.enable_sticky_header %}sticky-header{% else %}div{% endif %}>
 
 {%- render 'cart-notification', color_scheme: section.settings.color_scheme -%}

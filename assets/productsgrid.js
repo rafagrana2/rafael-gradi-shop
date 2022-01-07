@@ -1,3 +1,4 @@
+import CartDrawer from "./js/product/src/cart-drawer.js";
 class ProductsGrid extends HTMLElement {
   constructor() {
     super();
@@ -45,17 +46,18 @@ class ProductsGrid extends HTMLElement {
        body: JSON.stringify(formData)
      })
      .then(response => {
-       return response.json()+this.OpenMiniCart();
+       CartDrawer.drawCart();
+       return response.json();
      })
      .catch((error) => {
        console.error('Error:', error);
      });
   }
 
-  OpenMiniCart(){
+/*  OpenMiniCart(){
     this.MiniCart.classList.add('open');
     this.Overlay.classList.add('active');
-  } 
+  } */
 
   renderContents(parsedState) {
     this.productId = parsedState.id;

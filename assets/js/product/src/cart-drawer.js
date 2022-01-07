@@ -1,13 +1,24 @@
-import { domElements } from "../../utils/dom-elements.js"
+import { domElements } from "../../utils/dom-elements.js";
+import API from "../../services/api.js"
 
-export class CartDrawer {
+class CartDrawer {
   async drawCart() {
-    domElements().$sidecart.classList.add('open')
+    await this.update()
+    domElements().$sideCart.classList.add('open')
     domElements().$overlay.classList.add('active')
   }
 
-  async hideCart() {
-    domElements().$sidecart.classList.remove('open')
+  hideCart() {
+    domElements().$sideCart.classList.remove('open')
     domElements().$overlay.classList.remove('active')
   }
+
+  async update() {
+    domElements().$sideCartContainer.innerHTML = "Loading..."
+    const htmlMarkup = await API.updateShopifySection('side-cart')
+    domElements().$sideCartContainer.innerHTML = htmlMarkup
+    
+  }
 }
+
+export default new CartDrawer()
