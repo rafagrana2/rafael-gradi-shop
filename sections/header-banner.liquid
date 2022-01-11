@@ -1,0 +1,7 @@
+{{ 'header-banner.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'header-banner.js' | asset_url }}" type="module" defer="defer"></script>
+<section class="banner">
+    <div class="marquee-container">
+        <marquee class="customBanner" behavior="scroll" direction="left" scrollamount="8" loop="infinite">★ Loading... ★</marquee>
+    </div>
+</section>
